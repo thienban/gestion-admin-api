@@ -4,6 +4,9 @@ var app        = express();                 // define our app using express
 var bodyParser = require('body-parser');
 var mongoose   = require('mongoose'); // mongoDB
 var User     = require('./models/user'); // schema
+var Organisation   = require('./models/organisation'); // schema
+var Team   = require('./models/team'); // schema
+
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -101,6 +104,37 @@ router.route('/user/:user_id')
         });
     });
 
+router.route('/organsation')
+    // create a organisation
+    .post(function(req, res) {
+
+        var organisation = new Organisation();
+        organisation.name = req.body.name;
+
+        organisation.save(function(err) {
+            if (err)
+                res.send(err);
+
+            res.json({ message: 'organisation created!' });
+        });
+
+    });
+
+router.route('/team')
+    // create a organisation
+    .post(function(req, res) {
+
+        var team = new Team();
+        team.name = req.body.name;
+
+        team.save(function(err) {
+            if (err)
+                res.send(err);
+
+            res.json({ message: 'team created!' });
+        });
+
+    });
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
 app.use('/api', router);
