@@ -40,6 +40,7 @@ router.route('/user')
 
         var user = new User();
         user.name = req.body.name;
+        user.email = req.body.email;
 
         // save user and check for errors
         user.save(function(err) {
@@ -77,6 +78,7 @@ router.route('/user/:user_id')
                 res.send(err);
             }
             user.name = req.body.name;
+            user.email = req.body.email;
             // save user
             user.save(function(err) {
                 if (err) {
