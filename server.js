@@ -104,7 +104,7 @@ router.route('/user/:user_id')
         });
     });
 
-router.route('/organsation')
+router.route('/organisation')
     // create a organisation
     .post(function(req, res) {
 
@@ -118,10 +118,17 @@ router.route('/organsation')
             res.json({ message: 'organisation created!' });
         });
 
+    })
+    .get(function(req, res) {
+        Organisation.find(function(err, user) {
+            if (err)
+                res.send(err);
+
+            res.json(user);
+        });
     });
 
 router.route('/team')
-    // create a organisation
     .post(function(req, res) {
 
         var team = new Team();
@@ -132,8 +139,15 @@ router.route('/team')
                 res.send(err);
 
             res.json({ message: 'team created!' });
-        });
+        })
+    })
+      .get(function(req, res) {
+        Team.find(function(err, user) {
+            if (err)
+                res.send(err);
 
+            res.json(user);
+        });
     });
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
