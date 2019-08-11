@@ -3,9 +3,9 @@ var express    = require('express');        // call express
 var app        = express();                 // define our app using express
 var bodyParser = require('body-parser');
 var mongoose   = require('mongoose'); // mongoDB
-var User     = require('./models/user'); // schema
 var Organisation   = require('./models/organisation'); // schema
 var Team   = require('./models/team'); // schema
+var userApi   = require('./api/user'); 
 
 
 // configure app to use bodyParser()
@@ -43,73 +43,7 @@ router.get('/', function(req, res) {
 // more routes for our API will happen here
 // on routes that end in /user
 // ----------------------------------------------------
-router.route('/user')
-
-    // create a user
-    .post(function(req, res) {
-
-        var user = new User();
-        user.name = req.body.name;
-        user.email = req.body.email;
-
-        // save user and check for errors
-        user.save(function(err) {
-            if (err)
-                res.send(err);
-
-            res.json({ message: 'User created!' });
-        });
-
-    })
-    // get all the user
-    .get(function(req, res) {
-        User.find(function(err, user) {
-            if (err)
-                res.send(err);
-
-            res.json(user);
-        });
-    });
-
-router.route('/user/:user_id')
-    // get the user with ID
-    .get(function(req, res) {
-        User.findById(req.params.user_id, function(err, user) {
-            if (err)
-                res.send(err);
-            res.json(user);
-        });
-    })
-     // update the user with this id
-     .put(function(req, res) {
-        User.findById(req.params.user_id, function(err, user) {
-
-            if (err) {
-                res.send(err);
-            }
-            user.name = req.body.name;
-            user.email = req.body.email;
-            // save user
-            user.save(function(err) {
-                if (err) {
-                    res.send(err);
-                }
-                res.json({ message: 'User updated!' });
-            });
-
-        });
-    })
-    // delete the user with this id
-    .delete(function(req, res) {
-        User.remove({
-            _id: req.params.user_id
-        }, function(err, user) {
-            if (err)
-                res.send(err);
-
-            res.json({ message: 'Successfully deleted' });
-        });
-    });
+router.use('/user', userApi());
 
 router.route('/organisation')
     // create a organisation
