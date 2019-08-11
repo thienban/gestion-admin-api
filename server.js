@@ -12,6 +12,13 @@ var Team   = require('./models/team'); // schema
 // this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+//enable CORS
+app.use(function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', "*");
+    res.header('Access-Control-Allow-Methods','GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+})
 
 var port = process.env.PORT || 8080;        // set our port
 
